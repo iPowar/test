@@ -2,38 +2,33 @@
 namespace Acme\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
- * @ORM\Table("users")
  * @ORM\Entity
- *
+ * @ORM\Table(name="category")
+ * @ORM\Entity(repositoryClass="Acme\ApiBundle\Entity\CategoryRepository")
+ * 
  * @author Mikhail Kudryashov <mikhail.kudryashov@opensoftdev.ru>
  */
-class User extends BaseUser
+class Category
 {
     /**
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
-     * @var integer
      */
-    protected $id;
+    private $id;
     
     /**
-     * @return integer
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+     * 
+     * @var Product[]|ArrayCollection
      */
-    public function getId()
+    private $products;
+
+    public function __construct()
     {
-        return $this->id;
-    }
-
-    public function __construct() {
-        parent::__construct();
-
         $this->products = new ArrayCollection();
     }
 }

@@ -1,9 +1,17 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
-parameters:
-#    parameter_name: value
-
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    product_handler:
+        class: Acme\ApiBundle\Handler\ProductHandler
+        arguments: ["@security.token_storage", "@doctrine"]
+
+    product_repository:
+        class: Acme\ApiBundle\Entity\ProductRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Acme\ApiBundle\Entity\Product
+    category_repository:
+        class: Acme\ApiBundle\Entity\CategoryRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Acme\ApiBundle\Entity\Category
